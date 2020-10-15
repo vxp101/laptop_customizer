@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import MainSummary from '../MainSummary/MainSummary'
+import Total from '../Total/Total'
 import SummaryOption from '../SummaryOption/SummaryOption'
 
 class Summary extends Component {
@@ -10,7 +10,7 @@ class Summary extends Component {
             <SummaryOption
                 selected={this.props.selected}
             />
-            <MainSummary
+            <Total
                 total={this.props.total}
             />
         </section>
