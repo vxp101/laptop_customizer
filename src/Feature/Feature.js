@@ -3,6 +3,11 @@ import slugify from 'slugify'
 import FeatureItem from '../FeatureItem/FeatureItem';
 import Options from '../Options/Options';
 
+const USCurrencyFormat = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+});
+
 class Feature extends Component {
 
     render() {
@@ -13,12 +18,12 @@ class Feature extends Component {
                 const itemHash = slugify(JSON.stringify(item));
                 return (
                     <Options
+                        updateFeature={this.props.updateFeature}
                         itemHash={itemHash}
                         feature={feature}
-                        featureHash={featureHash}
+                        cost={USCurrencyFormat.format(item.cost)}
                         item={item}
                         name={slugify(feature)}
-                        onChange={e => this.updateFeature(feature, item)}
                         checked={item.name === this.props.selected[feature].name}
                     />
                 );
@@ -27,6 +32,8 @@ class Feature extends Component {
             return (
                 <FeatureItem
                     options={options}
+                    featureHash={featureHash}
+                    feature={feature}
                 />
             );
         });

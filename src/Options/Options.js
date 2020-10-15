@@ -3,10 +3,7 @@ import React, { Component } from 'react'
 class Options extends Component {
 
     render() {
-        const USCurrencyFormat = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        });
+
         return (
 
             <div key={this.props.itemHash} className="feature__item" >
@@ -15,11 +12,11 @@ class Options extends Component {
                     id={this.props.itemHash}
                     className="feature__option"
                     name={this.props.name}
-                    checked={this.props}
-                    onChange={this.props.onChange}
+                    checked={this.props.checked}
+                    onChange={e => this.props.updateFeature(this.props.feature, this.props.item)}
                 />
                 <label htmlFor={this.props.itemHash} className="feature__label">
-                    {this.props.item.name} ({USCurrencyFormat.format(this.props.item.cost)})
+                    {this.props.item.name} ({this.props.cost})
               </label>
             </div>
         );

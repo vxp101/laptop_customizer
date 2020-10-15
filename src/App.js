@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import Feature from './Feature/Feature'
-// Normalizes string as a slug - a string that is safe to use
-// in both URLs and html attributes
-
 import './App.css';
-import SummaryOption from './SummaryOption/SummaryOption';
-import MainSummary from './MainSummary/MainSummary'
-import Header from './Header/Header'
+import Summary from './Summary/Summary'
+
 // This object will allow us to
 // easily convert numbers into US dollar values
-
+const USCurrencyFormat = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD'
+});
 class App extends Component {
   state = {
     selected: {
@@ -31,22 +30,14 @@ class App extends Component {
       }
     }
   };
-
-  render() {
-
-
-    const summary = Object.keys(this.state.selected).map((feature, idx) => {
-      const featureHash = feature + '-' + idx;
-      const selectedOption = this.state.selected[feature];
-
-      return (
-        <SummaryOption
-          featureHash={featureHash}
-          feature={feature}
-          selectedOption={selectedOption}
-        />
-      );
+  updateFeature = (feature, newValue) => {
+    const selected = Object.assign({}, this.state.selected);
+    selected[feature] = newValue;
+    this.setState({
+      selected
     });
+  };
+  render() {
 
     const total = Object.keys(this.state.selected).reduce(
       (acc, curr) => acc + this.state.selected[curr].cost,
@@ -55,20 +46,24 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Header />
+        <header>
+          <h1>ELF Computing | Laptops</h1>
+        </header>
         <main>
           <form className="main__form">
             <h2>Customize your laptop</h2>
             {/* {features} */}
             <Feature
+              key={this.props.features}
               features={this.props.features}
+              updateFeature={this.updateFeature}
               selected={this.state.selected}
 
             />
           </form>
-          <MainSummary
-            total={total}
-            summary={summary}
+          <Summary
+            total={USCurrencyFormat.format(total)}
+            selected={this.state.selected}
           />
         </main>
       </div>
